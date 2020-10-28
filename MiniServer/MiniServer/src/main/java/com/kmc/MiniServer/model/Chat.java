@@ -2,12 +2,15 @@ package com.kmc.MiniServer.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.lang.NonNull;
 
+import javax.validation.constraints.NotBlank;
 import java.time.Instant;
 
 public class Chat {
 
-    private final String name;
+    @NotBlank
+    private final String username;
 
     private final String message;
 
@@ -15,16 +18,16 @@ public class Chat {
 
     private final Instant updated_at;
 
-    public Chat(@JsonProperty("username") String name,
+    public Chat(@JsonProperty("username") String username,
                 @JsonProperty("message") String message) {
-        this.name = name;
+        this.username = username;
         this.message = message;
         created_at = Instant.now();
         updated_at = Instant.now();
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     public String getMessage() {
@@ -41,6 +44,6 @@ public class Chat {
 
     @Override
     public String toString(){
-        return name + " : " + message;
+        return username + " : " + message;
     }
 }

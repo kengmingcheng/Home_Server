@@ -23,7 +23,7 @@ public class ChatController {
     }
 
     @PostMapping
-    public void addMessage(@Valid @NonNull @RequestBody Chat chat){
+    public void addMessage(@Valid @NonNull Chat chat){
         chatService.addMessage(chat);
     }
 
