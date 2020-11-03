@@ -1,8 +1,7 @@
 package com.kmc.MiniServer.service;
 
-import com.kmc.MiniServer.dao.ChatData;
+import com.kmc.MiniServer.model.ChatData;
 import com.kmc.MiniServer.dao.PlantvilleDao;
-import com.kmc.MiniServer.dao.TempDao;
 import com.kmc.MiniServer.model.Chat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

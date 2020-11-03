@@ -1,11 +1,8 @@
 package com.kmc.MiniServer.dao;
 
-import com.kmc.MiniServer.model.Chat;
-import com.kmc.MiniServer.model.Trade;
+import com.kmc.MiniServer.model.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public interface PlantvilleDao {
 
@@ -26,12 +23,24 @@ public interface PlantvilleDao {
         return insertTrade(id, trade);
     }
 
-    List<Trade> tradeHistory();
+    List<TradeData> tradeHistory();
 
-    Optional<Trade> selectTradeById(UUID id);
+    Optional<TradeData> selectTradeById(UUID id);
+
+    Optional<TradeData> selectTradeById(Integer id);
 
     int deleteTradeById(UUID id);
 
-    int updateTradeById(UUID id);
+    int updateTradeById(Integer id, String accepted_by);
 
+    // save block
+    int insertSave(String name, GameSave save);
+
+    Map<String, GameSave> allSaves();
+
+    Optional<GameSave> selectSaveByName(String name);
+
+    int updateSaveByName(String name);
+
+    int deleteSaveByName(String name);
 }

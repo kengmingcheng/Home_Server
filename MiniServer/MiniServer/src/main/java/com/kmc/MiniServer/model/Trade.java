@@ -14,7 +14,9 @@ public class Trade {
 
     private float price;
 
-    private boolean state;
+    private String state;
+
+    private String plant;
 
     private int quantity;
 
@@ -22,17 +24,15 @@ public class Trade {
 
     private Instant updated_at;
 
-    public Trade(UUID id,
-                 String author,
-                 String accepted_by,
+    public Trade(String author,
                  float price,
-                 boolean state,
+                 String plant,
                  int quantity) {
-        this.id = id;
+        this.id = UUID.randomUUID();
         this.author = author;
-        this.accepted_by = accepted_by;
         this.price = price;
-        this.state = state;
+        this.state = "open";
+        this.plant = plant;
         this.quantity = quantity;
         this.created_at = Instant.now();
         this.updated_at = Instant.now();
@@ -50,13 +50,19 @@ public class Trade {
         return accepted_by;
     }
 
+    public void setAccepted_by(String accepted_by) { this.accepted_by = accepted_by; }
+
     public float getPrice() {
         return price;
     }
 
-    public boolean isState() {
+    public String getState() {
         return state;
     }
+
+    public void setState() { state = "close"; }
+
+    public String getPlant() { return plant;}
 
     public int getQuantity() {
         return quantity;
@@ -69,4 +75,6 @@ public class Trade {
     public Instant getUpdated_at() {
         return updated_at;
     }
+
+    public void setUpdated_at() { updated_at = Instant.now(); }
 }

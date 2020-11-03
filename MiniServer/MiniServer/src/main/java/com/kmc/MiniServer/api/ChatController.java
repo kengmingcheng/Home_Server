@@ -1,12 +1,11 @@
 package com.kmc.MiniServer.api;
 
-import com.kmc.MiniServer.dao.ChatData;
+import com.kmc.MiniServer.model.ChatData;
+
 import com.kmc.MiniServer.model.Chat;
 import com.kmc.MiniServer.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

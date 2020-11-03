@@ -1,19 +1,19 @@
 package com.kmc.MiniServer.dao;
 
-import com.kmc.MiniServer.model.Chat;
-import com.kmc.MiniServer.model.Trade;
+import com.kmc.MiniServer.model.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository("TempDao")
 public class TempDao implements PlantvilleDao {
 
     private List<ChatData> chatDB = new ArrayList<>();
 
-    private List<Trade> tradeDB = new ArrayList<>();
+    private List<TradeData> tradeDB = new ArrayList<>();
 
-    private static Integer chatSerialNo = 0;
+    private Map<String, GameSave> saveDB = new HashMap<>();
 
     // Chat block
     @Override
@@ -24,13 +24,13 @@ public class TempDao implements PlantvilleDao {
 
     @Override
     public List<ChatData> chatHistory() {
-        return chatDB;
+        return chatDB.stream().limit(100).collect(Collectors.toList());
     }
 
     @Override
     public Optional<ChatData> selectMessageById(Integer id){
         return chatDB.stream()
-                .filter(Chat -> Chat.getPk().equals(id))
+                .filter(chat -> chat.getPk().equals(id))
                 .findFirst();
     }
 
@@ -47,28 +47,76 @@ public class TempDao implements PlantvilleDao {
     // Trade block
     @Override
     public int insertTrade(UUID id, Trade trade) {
+        tradeDB.add(0, new TradeData(trade));
         return 0;
     }
 
     @Override
-    public List<Trade> tradeHistory() {
-        return tradeDB;
+    public List<TradeData> tradeHistory() {
+        return tradeDB.stream().limit(100).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Trade> selectTradeById(UUID id) {
-        return Optional.empty();
+    public Optional<TradeData> selectTradeById(UUID id) {
+        return tradeDB.stream()
+                .filter(trade -> trade.getFields().getId().equals(id))
+                .findFirst();
+    }
+
+    @Override
+    public Optional<TradeData> selectTradeById(Integer id) {
+        return tradeDB.stream()
+                .filter(trade -> trade.getPk().equals(id))
+                .findFirst();
     }
 
     @Override
     public int deleteTradeById(UUID id) {
+        Optional<TradeData> trade = selectTradeById(id);
+        if (trade.isEmpty()) return 0;
+        else{
+            tradeDB.remove(trade.get());
+            return 1;
+        }
+    }
+
+    @Override
+    public int updateTradeById(Integer id, String accepted_by) {
+        Optional<TradeData> trade = selectTradeById(id);
+        if (trade.isEmpty()) return 0;
+        else{
+            trade.get().getFields().setState();
+            trade.get().getFields().setUpdated_at();
+            trade.get().getFields().setAccepted_by(accepted_by);
+            return 1;
+        }
+    }
+
+    // save block
+    @Override
+    public int insertSave(String name, GameSave save) {
+        saveDB.put(name, save);
+        return 1;
+    }
+
+    @Override
+    public Map<String, GameSave> allSaves() {
+        return saveDB;
+    }
+
+    @Override
+    public Optional<GameSave> selectSaveByName(String name) {
+        return Optional.ofNullable(saveDB.get(name));
+    }
+
+    @Override
+    public int updateSaveByName(String name) {
         return 0;
     }
 
     @Override
-    public int updateTradeById(UUID id) {
-        return 0;
+    public int deleteSaveByName(String name) {
+        return saveDB.remove(name) == null ? 0 : 1;
     }
-
 }
 

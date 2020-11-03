@@ -1,9 +1,8 @@
-package com.kmc.MiniServer.dao;
+package com.kmc.MiniServer.model;
 
 import com.kmc.MiniServer.model.Chat;
 
 public class ChatData {
-
     private String model;
 
     private Integer pk;
